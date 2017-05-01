@@ -1,0 +1,89 @@
+import tensorflow as tf
+
+hello = tf.constant('hello')
+sess = tf.Session()
+print(sess.run(hello))
+'''
+hello
+'''
+
+a = tf.constant(10)
+b = tf.constant(30)
+sess.run(a+b)
+
+'''
+40
+'''
+------------------------------------
+
+matrix_1 = tf.constant([[3,3]])
+matrix_2 = tf.constant([[2],[3]])
+
+product = tf.matmul(matrix_1,matrix_2)
+
+sess = tf.Session()
+
+print(sess.run(product))
+'''
+15
+'''
+
+sess.close()
+
+-------------------------------------
+with tf.Session() as sess:
+  result = sess.run([product])
+  print(result)
+-------------------------------
+#appoint gpu work
+with tf.Session() as sess:
+  with tf.device('/gpu:1'):    #use gpu
+    matrix_1 = tf.constant([[3,3]])
+    matrix_2 = tf.constant([[2],[3]])
+    product = tf.matmul(matrix_1,matrix_2)
+    ....
+    
+----------------------------------
+#assign  operation expression when run() start
+
+import tensorflow as tf
+state = tf.Variable(0,name = 'counter')
+one = tf.constant(1)
+new_value  = tf.add(state, one)
+update = tf.assign(state, new_value)
+
+init_op = tf.global_variable_initializer()   
+
+with tf.Session() as sess:
+  sess.run(init_op)
+  for _ in range(3):
+    sess.run(update)
+   
+'''    
+1
+2
+3
+'''
+  
+----------------------------------------
+input_1 = tf.constant(1.0)
+input_2 = tf.constant(2.0)
+input_3 = tf.constant(3.0)
+
+intermed = tf.add(input_2,input_3)
+mul = tf.multiply(input_1,intermed)
+with tf.Session() as sess:
+	result = sess.run([mul,intermed])
+	print(result)
+'''    
+   
+[5.0, 5.0] 
+    
+'''
+
+
+    
+    
+    
+    
+    
