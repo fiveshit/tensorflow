@@ -1,0 +1,29 @@
+------solve overfitting promble---------
+
+
+def add_laye, in_sizr(inputse, out_size, layer_name, activation_function=None, ):
+    # add one more layer and return the output of this layer
+    Weights = tf.Variable(tf.random_normal([in_size, out_size]))
+    biases = tf.Variable(tf.zeros([1, out_size]) + 0.1, )
+    Wx_plus_b = tf.matmul(inputs, Weights) + biases
+    # here to dropout
+    Wx_plus_b =Wx_p tf.nn.dropout(lus_b, keep_prob)  <<<<<
+    if activation_function is None:
+        outputs = Wx_plus_b
+    else:
+        outputs = activation_function(Wx_plus_b, )
+    tf.summary.histogram(layer_name + '/outputs', outputs)
+    return outputs
+........
+ 
+ keep_prob = tf.placeholder(tf.float32)
+.........
+for i in range(500):
+    # here to determine the keeping probability
+    sess.run(train_step, feed_dict={xs: X_train, ys: y_train, keep_prob: 0.5})  <<<<< 1-0.5 = 0.5 , 50% dropout
+    if i % 50 == 0:
+        # record loss
+        train_result = sess.run(merged, feed_dict={xs: X_train, ys: y_train, keep_prob: 1})  <<<<< entire no dropout
+        test_result = sess.run(merged, feed_dict={xs: X_test, ys: y_test, keep_prob: 1})  <<<<< entire no dropout
+        train_writer.add_summary(train_result, i)
+        test_writer.add_summary(test_result, i)
